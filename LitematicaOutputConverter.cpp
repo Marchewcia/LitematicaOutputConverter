@@ -22,7 +22,7 @@ static void writeToFile(std::ofstream& file, std::string text, int num) {
 int main() {
 	bool readingNumber, endOfData = false;
 	int i = 0;
-	std::map<int, std::string> data;
+	std::map<std::string, int> data;
 	std::string input;
 
 	std::cout << "Full path to file: ";
@@ -44,12 +44,12 @@ int main() {
 			endOfData = true;
 			std::vector<int> keys;
 			for (auto const& m : data) {
-				keys.push_back(m.first);
+				keys.push_back(m.second);
 			}
 			std::sort(keys.begin(), keys.end(), std::greater<int>());
 			for (int i : keys) {
 				for (auto const& m : data) {
-					if (m.first == i) {
+					if (m.second == i) {
 						int full = i, stack = 0, shulk = 0, vault = 0;
 						while (full >= amountInStack) {
 							full -= amountInStack;
@@ -63,7 +63,7 @@ int main() {
 								shulk = 0;
 							}
 						}
-						output << m.second;
+						output << m.first;
 						if (vault) {
 							writeToFile(output, "Vaults", vault);
 						}
@@ -108,7 +108,7 @@ int main() {
 					break;
 				case Third:
 					available = std::stoi(readNumber);
-					data.insert({ unplaced - available, input });
+					data.insert({ input, unplaced - available });
 					break;
 				}
 				readNumber = empty;
